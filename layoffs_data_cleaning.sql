@@ -24,7 +24,7 @@ WHERE row_num > 1;
 
 -- DELETE 
 -- FROM duplicate_cte
--- WHERE row_num > 1; c 
+-- WHERE row_num > 1; 
 
 -- 2. Create staging table with row numbers
 CREATE TABLE `layoffs_staging2` (
