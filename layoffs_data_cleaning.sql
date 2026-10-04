@@ -161,8 +161,32 @@ DROP COLUMN row_num;
 SELECT *
 FROM layoffs_staging2;
 
+-- TOP 5 COMPANIES WITH MOST LAYOFFS PER YEAR
 
+WITH Company_Year (company, years, total_laid_off) AS 
+(
+    SELECT 
+        company, 
+        YEAR(`date`) AS year, 
+        SUM(total_laid_off) AS Totaloff
+    FROM layoffs_staging2
+    GROUP BY company, YEAR(`date`)
+),
 
+Company_Year_Rank AS 
+(
+    SELECT *,
+           DENSE_RANK() OVER (
+               PARTITION BY years 
+               ORDER BY total_laid_off DESC
+           ) AS Ranking
+    FROM Company_Year
+    WHERE years IS NOT NULL 
+)
+
+SELECT *
+FROM Company_Year_Rank
+WHERE Ranking <= 5;
 
 
 
